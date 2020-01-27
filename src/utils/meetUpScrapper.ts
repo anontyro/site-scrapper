@@ -2,7 +2,8 @@ import mainScrapper from '../Scrappers';
 
 const getMeetUpValues = async (URL: string) => {
   await mainScrapper();
-  await mainScrapper.getAttendees(URL);
+  const attendees = await mainScrapper.getAttendees(URL);
+  console.log(`First attendee is: ${attendees[0]?.name}`);
   await mainScrapper.exit();
 };
 
