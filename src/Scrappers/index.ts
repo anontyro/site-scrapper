@@ -53,9 +53,12 @@ mainScrapper.getAttendees = async (url: string): Promise<Attendee[]> => {
     for (let i = 0; i < attendeeLength; i++) {
       const item: any = unorderedList[i];
       const name: any = item.children[0]?.children[0]?.innerText;
+      const image = item?.firstChild?.children[0]?.getElementsByTagName(
+        'img'
+      )[0]?.src;
       const person: Attendee = {
         name,
-        image: '',
+        image,
       };
       output.push(person);
     }
@@ -63,7 +66,7 @@ mainScrapper.getAttendees = async (url: string): Promise<Attendee[]> => {
     return output;
   });
 
-  console.log(`Full Attendees List: ${listOfAttendees}`);
+  console.log(`Attendees list generated`);
 
   return listOfAttendees;
 };
