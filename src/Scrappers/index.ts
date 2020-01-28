@@ -1,75 +1,25 @@
 import puppeteer from 'puppeteer';
+import getAttendees from './meetup';
 
 let BROWSER: puppeteer.Browser | null = null;
 
-interface Attendee {
-  name: string;
-  image: string;
-}
-
-const mainScrapper = async () => {
+/**
+ * Main setup function that will setup puppeteer with no headless by default
+ * accepts additional params
+ * @param opts additional options to change the way puppeteer reacts
+ */
+const mainScrapper = async (opts: {} = {}) => {
   BROWSER = await puppeteer.launch({
     headless: false,
+    ...opts,
   });
 };
 
-mainScrapper.getAttendees = async (url: string): Promise<Attendee[]> => {
-  console.log(`Getting Attendees from: ${url} `);
-  if (!BROWSER) {
-    console.error('No browser set');
-    return [];
-  }
-  const page = await BROWSER.newPage();
-  await page.goto(url, {waitUntil: 'networkidle2'});
-  const upcomingEventUrl: string | null = await page.evaluate(() => {
-    console.log('Searching for next event...');
-    const eventList = document.querySelector(
-      '.groupHome-eventsList-upcomingEvents'
-    );
-    const eventLinkEl: any = eventList?.children[0]?.firstChild?.firstChild;
-    return eventLinkEl ? eventLinkEl.href : null;
-  });
-
-  if (!upcomingEventUrl) {
-    console.warn('No upcoming events');
-    return [];
-  }
-  console.log(`Next Event URL: ${upcomingEventUrl}`);
-
-  await page.goto(`${upcomingEventUrl}attendees`, {waitUntil: 'networkidle2'});
-
-  const listOfAttendees: any[] = await page.evaluate(() => {
-    const output: Attendee[] = [];
-
-    console.log('Getting attendees list...');
-    const unorderedList = document.querySelector('.attendees-list')?.children;
-
-    if (!unorderedList) {
-      console.warn('No attendees found');
-      return [];
-    }
-
-    const attendeeLength = unorderedList.length;
-    for (let i = 0; i < attendeeLength; i++) {
-      const item: any = unorderedList[i];
-      const name: any = item.children[0]?.children[0]?.innerText;
-      const image = item?.firstChild?.children[0]?.getElementsByTagName(
-        'img'
-      )[0]?.src;
-      const person: Attendee = {
-        name,
-        image,
-      };
-      output.push(person);
-    }
-
-    return output;
-  });
-
-  console.log(`Attendees list generated`);
-
-  return listOfAttendees;
-};
+/**
+ *
+ */
+mainScrapper.getMeetUpAttendees = async (url: string) =>
+  await getAttendees(url, BROWSER);
 
 mainScrapper.exit = async () => {
   if (BROWSER) {

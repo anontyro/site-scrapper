@@ -5,4 +5,13 @@ const URL_LIST = {
   SINGAPORE_CSS: 'https://www.meetup.com/SingaporeCSS/',
 };
 
-getMeetUpValues(URL_LIST.SINGAPORE_CSS);
+(async () => {
+  try {
+    const meetUpList = await getMeetUpValues(URL_LIST.SINGAPORE_CSS);
+    console.log(
+      `First attendee is: ${meetUpList[0]?.name} with image: ${meetUpList[0]?.image}`
+    );
+  } catch (err) {
+    console.error(err);
+  }
+})();
