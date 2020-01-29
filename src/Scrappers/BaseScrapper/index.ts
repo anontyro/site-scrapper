@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import getAttendees from './meetup';
+import getAttendees from '../utils/meetup';
 
 let BROWSER: puppeteer.Browser | null = null;
 
@@ -10,7 +10,7 @@ let BROWSER: puppeteer.Browser | null = null;
  */
 const mainScrapper = async (opts: {} = {}) => {
   BROWSER = await puppeteer.launch({
-    headless: false,
+    headless: true,
     ...opts,
   });
 };

@@ -1,4 +1,4 @@
-import getMeetUpValues from './utils/meetUpScrapper';
+import getMeetUpValues from './Scrappers/meetUpScrapper';
 
 const URL_LIST = {
   TALK_JS: 'https://www.meetup.com/Singapore-JS/',

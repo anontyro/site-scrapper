@@ -1,4 +1,4 @@
-import mainScrapper from '../Scrappers';
+import mainScrapper from './BaseScrapper';
 
 const getMeetUpValues = async (URL: string) => {
   await mainScrapper();
