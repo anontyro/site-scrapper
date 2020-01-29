@@ -7,20 +7,28 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "clean": "rm -rf dist && mkdir dist",
+    "dev:server": "nodemon",
+    "dev:client": "cd ./src/client && npx react-scripts start",
+    "dev": "run-p dev:server dev:client",
     "start": "npm run clean && npm run build && node dist/index.js"
   },
   "author": "alexwilkinson@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "preact": "^10.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "puppeteer": "^2.0.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.2",
     "@types/puppeteer": "^2.0.0",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "typescript": "^3.7.4",
+    "ava": "^3.1.0",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
     "ts-loader": "^6.2.1",
-    "ava": "^3.1.0"
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.4"
   }
 }
